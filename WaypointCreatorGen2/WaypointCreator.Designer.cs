@@ -30,14 +30,14 @@ namespace WaypointCreatorGen2
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.TabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -49,6 +49,12 @@ namespace WaypointCreatorGen2
             this.Orientation = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MoveTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Delay = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.GridViewContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.CutStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.CopyStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteAboveStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.PasteBelowStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.GenerateSQLStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.EditorListBox = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -64,22 +70,17 @@ namespace WaypointCreatorGen2
             this.SQLOutputTextBox = new System.Windows.Forms.TextBox();
             this.SQLOutputToolStrip = new System.Windows.Forms.ToolStrip();
             this.SQLOutputSaveButton = new System.Windows.Forms.ToolStripButton();
-            this.DataTableContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.CutMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PasteAboveMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.PasteBelowMenuStripItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.GenerateSQLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.TabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EditorGridView)).BeginInit();
+            this.GridViewContextMenuStrip.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.EditorWaypointChart)).BeginInit();
             this.EditorToolStrip.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.SQLOutputToolStrip.SuspendLayout();
-            this.DataTableContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // TabControl
@@ -133,8 +134,8 @@ namespace WaypointCreatorGen2
             this.Orientation,
             this.MoveTime,
             this.Delay});
+            this.EditorGridView.ContextMenuStrip = this.GridViewContextMenuStrip;
             this.EditorGridView.Location = new System.Drawing.Point(7, 14);
-            this.EditorGridView.MultiSelect = false;
             this.EditorGridView.Name = "EditorGridView";
             this.EditorGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.EditorGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -152,8 +153,8 @@ namespace WaypointCreatorGen2
             // 
             // PositionX
             // 
-            dataGridViewCellStyle1.NullValue = "0.0";
-            this.PositionX.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle5.NullValue = "0.0";
+            this.PositionX.DefaultCellStyle = dataGridViewCellStyle5;
             this.PositionX.HeaderText = "PositionX";
             this.PositionX.Name = "PositionX";
             this.PositionX.ReadOnly = true;
@@ -162,8 +163,8 @@ namespace WaypointCreatorGen2
             // 
             // PositionY
             // 
-            dataGridViewCellStyle2.NullValue = null;
-            this.PositionY.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle6.NullValue = null;
+            this.PositionY.DefaultCellStyle = dataGridViewCellStyle6;
             this.PositionY.HeaderText = "PositionY";
             this.PositionY.Name = "PositionY";
             this.PositionY.ReadOnly = true;
@@ -172,8 +173,8 @@ namespace WaypointCreatorGen2
             // 
             // PositionZ
             // 
-            dataGridViewCellStyle3.NullValue = null;
-            this.PositionZ.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle7.NullValue = null;
+            this.PositionZ.DefaultCellStyle = dataGridViewCellStyle7;
             this.PositionZ.HeaderText = "PositionZ";
             this.PositionZ.Name = "PositionZ";
             this.PositionZ.ReadOnly = true;
@@ -182,8 +183,8 @@ namespace WaypointCreatorGen2
             // 
             // Orientation
             // 
-            dataGridViewCellStyle4.NullValue = null;
-            this.Orientation.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle8.NullValue = null;
+            this.Orientation.DefaultCellStyle = dataGridViewCellStyle8;
             this.Orientation.HeaderText = "Orientation";
             this.Orientation.Name = "Orientation";
             this.Orientation.ReadOnly = true;
@@ -205,6 +206,52 @@ namespace WaypointCreatorGen2
             this.Delay.ReadOnly = true;
             this.Delay.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Delay.Width = 80;
+            // 
+            // GridViewContextMenuStrip
+            // 
+            this.GridViewContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.CutStripMenuItem,
+            this.CopyStripMenuItem,
+            this.PasteAboveStripMenuItem,
+            this.PasteBelowStripMenuItem,
+            this.GenerateSQLStripMenuItem});
+            this.GridViewContextMenuStrip.Name = "GridViewContextMenuStrip";
+            this.GridViewContextMenuStrip.Size = new System.Drawing.Size(181, 136);
+            // 
+            // CutStripMenuItem
+            // 
+            this.CutStripMenuItem.Name = "CutStripMenuItem";
+            this.CutStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CutStripMenuItem.Text = "Cut";
+            this.CutStripMenuItem.Click += new System.EventHandler(this.CutStripMenuItem_Click);
+            // 
+            // CopyStripMenuItem
+            // 
+            this.CopyStripMenuItem.Name = "CopyStripMenuItem";
+            this.CopyStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.CopyStripMenuItem.Text = "Copy";
+            this.CopyStripMenuItem.Click += new System.EventHandler(this.CopyStripMenuItem_Click);
+            // 
+            // PasteAboveStripMenuItem
+            // 
+            this.PasteAboveStripMenuItem.Name = "PasteAboveStripMenuItem";
+            this.PasteAboveStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PasteAboveStripMenuItem.Text = "Paste Above";
+            this.PasteAboveStripMenuItem.Click += new System.EventHandler(this.PasteAboveStripMenuItem_Click);
+            // 
+            // PasteBelowStripMenuItem
+            // 
+            this.PasteBelowStripMenuItem.Name = "PasteBelowStripMenuItem";
+            this.PasteBelowStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.PasteBelowStripMenuItem.Text = "Paste Below";
+            this.PasteBelowStripMenuItem.Click += new System.EventHandler(this.PasteBelowStripMenuItem_Click);
+            // 
+            // GenerateSQLStripMenuItem
+            // 
+            this.GenerateSQLStripMenuItem.Name = "GenerateSQLStripMenuItem";
+            this.GenerateSQLStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.GenerateSQLStripMenuItem.Text = "Generate SQL";
+            this.GenerateSQLStripMenuItem.Click += new System.EventHandler(this.GenerateSQLStripMenuItem_Click);
             // 
             // groupBox2
             // 
@@ -238,79 +285,79 @@ namespace WaypointCreatorGen2
             // EditorWaypointChart
             // 
             this.EditorWaypointChart.BorderlineColor = System.Drawing.Color.Black;
-            chartArea1.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
-            chartArea1.AxisX.IsReversed = true;
-            chartArea1.AxisX.IsStartedFromZero = false;
-            chartArea1.AxisX.LabelStyle.Enabled = false;
-            chartArea1.AxisX.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.LabelStyle.IsEndLabelVisible = false;
-            chartArea1.AxisX.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.MajorGrid.Enabled = false;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.MajorTickMark.Enabled = false;
-            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.MinorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None;
-            chartArea1.AxisX.ScaleBreakStyle.Enabled = true;
-            chartArea1.AxisX.ScaleBreakStyle.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Silver;
-            chartArea1.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
-            chartArea1.AxisX.TitleForeColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX2.MajorGrid.Enabled = false;
-            chartArea1.AxisX2.MajorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX2.MajorTickMark.Enabled = false;
-            chartArea1.AxisX2.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisX2.MinorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea1.AxisY.IsStartedFromZero = false;
-            chartArea1.AxisY.LabelStyle.Enabled = false;
-            chartArea1.AxisY.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY.LabelStyle.IsEndLabelVisible = false;
-            chartArea1.AxisY.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY.MajorGrid.Enabled = false;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY.MajorTickMark.Enabled = false;
-            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY.MajorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None;
-            chartArea1.AxisY.ScaleBreakStyle.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY.ScrollBar.ButtonColor = System.Drawing.Color.Silver;
-            chartArea1.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black;
-            chartArea1.AxisY.TitleForeColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY2.MajorGrid.Enabled = false;
-            chartArea1.AxisY2.MajorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY2.MajorTickMark.Enabled = false;
-            chartArea1.AxisY2.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY2.MinorGrid.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.AxisY2.MinorTickMark.LineColor = System.Drawing.Color.Transparent;
-            chartArea1.BorderColor = System.Drawing.Color.Transparent;
-            chartArea1.CursorX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.CursorX.IsUserEnabled = true;
-            chartArea1.CursorX.IsUserSelectionEnabled = true;
-            chartArea1.CursorY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.CursorY.IsUserEnabled = true;
-            chartArea1.CursorY.IsUserSelectionEnabled = true;
-            chartArea1.Name = "ChartArea1";
-            this.EditorWaypointChart.ChartAreas.Add(chartArea1);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.EditorWaypointChart.Legends.Add(legend1);
+            chartArea2.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
+            chartArea2.AxisX.IsReversed = true;
+            chartArea2.AxisX.IsStartedFromZero = false;
+            chartArea2.AxisX.LabelStyle.Enabled = false;
+            chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.LabelStyle.IsEndLabelVisible = false;
+            chartArea2.AxisX.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.MajorGrid.Enabled = false;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.MajorTickMark.Enabled = false;
+            chartArea2.AxisX.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.MinorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.MinorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.MinorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None;
+            chartArea2.AxisX.ScaleBreakStyle.Enabled = true;
+            chartArea2.AxisX.ScaleBreakStyle.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Silver;
+            chartArea2.AxisX.ScrollBar.LineColor = System.Drawing.Color.Black;
+            chartArea2.AxisX.TitleForeColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX2.MajorGrid.Enabled = false;
+            chartArea2.AxisX2.MajorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX2.MajorTickMark.Enabled = false;
+            chartArea2.AxisX2.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisX2.MinorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea2.AxisY.IsStartedFromZero = false;
+            chartArea2.AxisY.LabelStyle.Enabled = false;
+            chartArea2.AxisY.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY.LabelStyle.IsEndLabelVisible = false;
+            chartArea2.AxisY.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY.MajorGrid.Enabled = false;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY.MajorTickMark.Enabled = false;
+            chartArea2.AxisY.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY.MajorTickMark.TickMarkStyle = System.Windows.Forms.DataVisualization.Charting.TickMarkStyle.None;
+            chartArea2.AxisY.ScaleBreakStyle.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY.ScrollBar.ButtonColor = System.Drawing.Color.Silver;
+            chartArea2.AxisY.ScrollBar.LineColor = System.Drawing.Color.Black;
+            chartArea2.AxisY.TitleForeColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY2.MajorGrid.Enabled = false;
+            chartArea2.AxisY2.MajorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY2.MajorTickMark.Enabled = false;
+            chartArea2.AxisY2.MajorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY2.MinorGrid.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.AxisY2.MinorTickMark.LineColor = System.Drawing.Color.Transparent;
+            chartArea2.BorderColor = System.Drawing.Color.Transparent;
+            chartArea2.CursorX.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.CursorX.IsUserEnabled = true;
+            chartArea2.CursorX.IsUserSelectionEnabled = true;
+            chartArea2.CursorY.IntervalOffsetType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea2.CursorY.IsUserEnabled = true;
+            chartArea2.CursorY.IsUserSelectionEnabled = true;
+            chartArea2.Name = "ChartArea1";
+            this.EditorWaypointChart.ChartAreas.Add(chartArea2);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.EditorWaypointChart.Legends.Add(legend2);
             this.EditorWaypointChart.Location = new System.Drawing.Point(6, 14);
             this.EditorWaypointChart.Name = "EditorWaypointChart";
             this.EditorWaypointChart.Palette = System.Windows.Forms.DataVisualization.Charting.ChartColorPalette.None;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Legend = "Legend1";
-            series1.Name = "Path";
-            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
-            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
-            series2.Name = "Line";
-            series2.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
-            this.EditorWaypointChart.Series.Add(series1);
-            this.EditorWaypointChart.Series.Add(series2);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series3.Legend = "Legend1";
+            series3.Name = "Path";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
+            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Legend = "Legend1";
+            series4.Name = "Line";
+            series4.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Single;
+            this.EditorWaypointChart.Series.Add(series3);
+            this.EditorWaypointChart.Series.Add(series4);
             this.EditorWaypointChart.Size = new System.Drawing.Size(480, 480);
             this.EditorWaypointChart.TabIndex = 1;
             this.EditorWaypointChart.Text = "chart1";
@@ -420,40 +467,6 @@ namespace WaypointCreatorGen2
             this.SQLOutputSaveButton.Size = new System.Drawing.Size(110, 22);
             this.SQLOutputSaveButton.Text = "Save as SQL File";
             // 
-            // DataTableContextMenuStrip
-            // 
-            this.DataTableContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.CutMenuStripItem,
-            this.PasteAboveMenuStripItem,
-            this.PasteBelowMenuStripItem,
-            this.GenerateSQLToolStripMenuItem});
-            this.DataTableContextMenuStrip.Name = "DataTableContextMenuStrip";
-            this.DataTableContextMenuStrip.Size = new System.Drawing.Size(146, 92);
-            // 
-            // CutMenuStripItem
-            // 
-            this.CutMenuStripItem.Name = "CutMenuStripItem";
-            this.CutMenuStripItem.Size = new System.Drawing.Size(145, 22);
-            this.CutMenuStripItem.Text = "Cut";
-            // 
-            // PasteAboveMenuStripItem
-            // 
-            this.PasteAboveMenuStripItem.Name = "PasteAboveMenuStripItem";
-            this.PasteAboveMenuStripItem.Size = new System.Drawing.Size(145, 22);
-            this.PasteAboveMenuStripItem.Text = "Paste Above";
-            // 
-            // PasteBelowMenuStripItem
-            // 
-            this.PasteBelowMenuStripItem.Name = "PasteBelowMenuStripItem";
-            this.PasteBelowMenuStripItem.Size = new System.Drawing.Size(145, 22);
-            this.PasteBelowMenuStripItem.Text = "Paste Below";
-            // 
-            // GenerateSQLToolStripMenuItem
-            // 
-            this.GenerateSQLToolStripMenuItem.Name = "GenerateSQLToolStripMenuItem";
-            this.GenerateSQLToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.GenerateSQLToolStripMenuItem.Text = "Generate SQL";
-            // 
             // WaypointCreator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -469,6 +482,7 @@ namespace WaypointCreatorGen2
             this.tabPage1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EditorGridView)).EndInit();
+            this.GridViewContextMenuStrip.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.EditorWaypointChart)).EndInit();
@@ -478,7 +492,6 @@ namespace WaypointCreatorGen2
             this.tabPage2.PerformLayout();
             this.SQLOutputToolStrip.ResumeLayout(false);
             this.SQLOutputToolStrip.PerformLayout();
-            this.DataTableContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -503,11 +516,6 @@ namespace WaypointCreatorGen2
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ListBox EditorListBox;
         private System.Windows.Forms.DataGridView EditorGridView;
-        private System.Windows.Forms.ContextMenuStrip DataTableContextMenuStrip;
-        private System.Windows.Forms.ToolStripMenuItem CutMenuStripItem;
-        private System.Windows.Forms.ToolStripMenuItem PasteAboveMenuStripItem;
-        private System.Windows.Forms.ToolStripMenuItem PasteBelowMenuStripItem;
-        private System.Windows.Forms.ToolStripMenuItem GenerateSQLToolStripMenuItem;
         private System.Windows.Forms.ToolStripLabel EditorLoadingLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionX;
@@ -516,6 +524,12 @@ namespace WaypointCreatorGen2
         private System.Windows.Forms.DataGridViewTextBoxColumn Orientation;
         private System.Windows.Forms.DataGridViewTextBoxColumn MoveTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn Delay;
+        private System.Windows.Forms.ContextMenuStrip GridViewContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem CutStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem CopyStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PasteAboveStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem PasteBelowStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem GenerateSQLStripMenuItem;
     }
 }
 

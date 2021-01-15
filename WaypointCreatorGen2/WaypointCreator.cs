@@ -12,10 +12,13 @@ namespace WaypointCreatorGen2
         // Dictionary<UInt32 /*CreatureID*/, Dictionary<UInt64 /*lowGUID*/, List<WaypointInfo>>>
         Dictionary<UInt32, Dictionary<UInt64, List<WaypointInfo>>> WaypointDatabyCreatureEntry = new Dictionary<UInt32, Dictionary<UInt64, List<WaypointInfo>>>();
 
+        DataGridViewRow[] CopiedDataGridRows;
+
 
         public WaypointCreator()
         {
             InitializeComponent();
+            GridViewContextMenuStrip.Enabled = false;
         }
 
         private void WaypointCreator_Load(object sender, EventArgs e)
@@ -35,6 +38,7 @@ namespace WaypointCreatorGen2
                 EditorListBox.Items.Clear();
                 EditorImportSniffButton.Enabled = false;
                 EditorFilterEntryButton.Enabled = false;
+                GridViewContextMenuStrip.Enabled = false;
                 EditorLoadingLabel.Text = "Loading [" + Path.GetFileName(dialog.FileName) + "]...";
 
                 WaypointDatabyCreatureEntry = await Task.Run(()=> GetWaypointDataFromSniff(dialog.FileName));
@@ -208,6 +212,7 @@ namespace WaypointCreatorGen2
             }
 
             BuildGraphPath();
+            GridViewContextMenuStrip.Enabled = true;
         }
         private void BuildGraphPath()
         {
@@ -243,6 +248,104 @@ namespace WaypointCreatorGen2
 
             UInt64 lowGuid = UInt64.Parse(EditorListBox.SelectedItem.ToString());
             ShowWaypointDataForGUID(lowGuid);
+        }
+
+        private void CutStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (EditorGridView.SelectedRows.Count == 0)
+                return;
+
+            CopiedDataGridRows = new DataGridViewRow[EditorGridView.SelectedRows.Count];
+            EditorGridView.SelectedRows.CopyTo(CopiedDataGridRows, 0);
+
+            foreach (DataGridViewRow row in EditorGridView.SelectedRows)
+                EditorGridView.Rows.Remove(row);
+
+            // Update the row count field
+            int count = 0;
+            foreach (DataGridViewRow row in EditorGridView.Rows)
+            {
+                row.Cells[0].Value = count;
+                ++count;
+            }
+
+            // GriwView is updated, rebuild the graph path.
+            BuildGraphPath();
+        }
+
+        private void CopyStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (EditorGridView.SelectedRows.Count == 0)
+                return;
+
+            CopiedDataGridRows = new DataGridViewRow[EditorGridView.SelectedRows.Count];
+            EditorGridView.SelectedRows.CopyTo(CopiedDataGridRows, 0);
+        }
+
+        private void PasteAboveStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteRows(true);
+        }
+
+        private void PasteBelowStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteRows(false);
+        }
+
+        private void PasteRows(bool aboveSelection)
+        {
+            if (CopiedDataGridRows == null || CopiedDataGridRows.Length == 0 || EditorGridView.SelectedRows.Count == 0)
+                return;
+
+            int index = aboveSelection ? EditorGridView.SelectedRows[0].Index: EditorGridView.SelectedRows[EditorGridView.SelectedRows.Count - 1].Index + 1;
+
+            DataGridViewRow[] rowsCopy = new DataGridViewRow[EditorGridView.Rows.Count];
+            EditorGridView.Rows.CopyTo(rowsCopy, 0);
+            EditorGridView.Rows.Clear();
+            Array.Reverse(CopiedDataGridRows);
+
+            int appendedIndex = 0;
+            // First we append all waypoints that we had before the paste location
+            for (; appendedIndex < index; ++appendedIndex)
+                EditorGridView.Rows.Add(
+                    appendedIndex,
+                    rowsCopy[appendedIndex].Cells[1].Value,
+                    rowsCopy[appendedIndex].Cells[2].Value,
+                    rowsCopy[appendedIndex].Cells[3].Value,
+                    rowsCopy[appendedIndex].Cells[4].Value,
+                    rowsCopy[appendedIndex].Cells[5].Value,
+                    rowsCopy[appendedIndex].Cells[6].Value);
+
+            // Paste location reached, append copied rows
+            foreach (DataGridViewRow row in CopiedDataGridRows)
+                EditorGridView.Rows.Add(
+                    index++,
+                    row.Cells[1].Value,
+                    row.Cells[2].Value,
+                    row.Cells[3].Value,
+                    row.Cells[4].Value,
+                    row.Cells[5].Value,
+                    row.Cells[6].Value);
+
+            // Copied rows added, append remaining points
+            for (; appendedIndex < rowsCopy.Length; ++appendedIndex)
+                EditorGridView.Rows.Add(
+                    appendedIndex + CopiedDataGridRows.Length,
+                    rowsCopy[appendedIndex].Cells[1].Value,
+                    rowsCopy[appendedIndex].Cells[2].Value,
+                    rowsCopy[appendedIndex].Cells[3].Value,
+                    rowsCopy[appendedIndex].Cells[4].Value,
+                    rowsCopy[appendedIndex].Cells[5].Value,
+                    rowsCopy[appendedIndex].Cells[6].Value);
+
+            // GridView is updated, rebuild the graph path.
+            BuildGraphPath();
+        }
+
+        private void GenerateSQLStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Generates the SQL output.
+
         }
     }
 
