@@ -7,9 +7,13 @@ Feature overview:
 - Loading parsed WoWPacketParser output files to generate waypoint movement data
 - Filtering movement packets by CreatureIDs
 - Visualizing waypoints in a chart
+- Editing parsed waypoint data
+- Generating SQL files
+
+Prebuilt Binaries:
+You can download the [Binary](https://ci.appveyor.com/api/projects/Ovahlord/waypointcreatorgen2/artifacts/WaypointCreatorGen2VS2019.zip?branch=master) from Appveyor 
 
 Todo:
 
-- [ ] Waypoint editing
-- [ ] SQL generation
+- [ ] SQL File saving
 - [ ] Listing names of creatures if available
