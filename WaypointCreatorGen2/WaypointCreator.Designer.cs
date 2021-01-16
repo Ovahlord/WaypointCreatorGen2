@@ -286,7 +286,6 @@ namespace WaypointCreatorGen2
             // 
             this.EditorWaypointChart.BorderlineColor = System.Drawing.Color.Black;
             chartArea2.AlignmentOrientation = ((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations)((System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Vertical | System.Windows.Forms.DataVisualization.Charting.AreaAlignmentOrientations.Horizontal)));
-            chartArea2.AxisX.IsReversed = true;
             chartArea2.AxisX.IsStartedFromZero = false;
             chartArea2.AxisX.LabelStyle.Enabled = false;
             chartArea2.AxisX.LabelStyle.ForeColor = System.Drawing.Color.Transparent;
