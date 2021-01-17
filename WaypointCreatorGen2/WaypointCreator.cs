@@ -383,6 +383,19 @@ namespace WaypointCreatorGen2
 
             TabControl.SelectedTab = TabControl.TabPages[1];
         }
+
+        private void SQLOutputSaveButton_Click(object sender, EventArgs e)
+        {
+            // Saving the text of the SQLOutputTextBox into a file
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.Filter = "Structured Query Language (*.sql)|*.sql|All files (*.*)|*.*";
+            dialog.FilterIndex = 1;
+            dialog.DefaultExt = "sql";
+            dialog.RestoreDirectory = true;
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                File.WriteAllText(dialog.FileName, SQLOutputTextBox.Text, System.Text.Encoding.UTF8);
+        }
     }
 
     public class WaypointInfo
