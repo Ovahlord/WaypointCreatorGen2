@@ -87,7 +87,7 @@ namespace WaypointCreatorGen2
                         ++lineIndex;
 
                         // Skip chase movement
-                        if (lines[lineIndex].Contains("Face: 3"))
+                        if (lines[lineIndex].Contains("Face:") && lines[lineIndex].Contains("FacingTarget"))
                             break;
 
                         // Extracting entry and lowGuid from packet
