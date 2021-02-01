@@ -58,111 +58,110 @@ namespace WaypointCreatorGen2
         {
             Dictionary<UInt32, Dictionary<UInt64, List<WaypointInfo>>> result = new Dictionary<UInt32, Dictionary<UInt64, List<WaypointInfo>>>();
 
-            System.IO.StreamReader file = new System.IO.StreamReader(filePath);
-
-            string line;
-            while ((line = file.ReadLine()) != null)
+            using (System.IO.StreamReader file = new System.IO.StreamReader(filePath))
             {
-                if (line.Contains("SMSG_ON_MONSTER_MOVE") || line.Contains("SMSG_ON_MONSTER_MOVE_TRANSPORT"))
+                string line;
+                while ((line = file.ReadLine()) != null)
                 {
-                    WaypointInfo wpInfo = new WaypointInfo();
-                    UInt32 creatureId = 0;
-                    UInt64 lowGuid = 0;
-
-                    // Extracting the packet timestamp in milliseconds from the packet header for delay calculations
-                    string[] packetHeader = line.Split(new char[] { ' ' });
-                    for (int i = 0; i < packetHeader.Length; ++i)
+                    if (line.Contains("SMSG_ON_MONSTER_MOVE") || line.Contains("SMSG_ON_MONSTER_MOVE_TRANSPORT"))
                     {
-                        if (packetHeader[i].Contains("Time:"))
-                        {
-                            wpInfo.TimeStamp = UInt32.Parse(TimeSpan.Parse(packetHeader[i + 2]).TotalMilliseconds.ToString());
-                            break;
-                        }
-                    }
+                        WaypointInfo wpInfo = new WaypointInfo();
+                        UInt32 creatureId = 0;
+                        UInt64 lowGuid = 0;
 
-                    // Header noted, reading rest of the packet now
-                    do
-                    {
-                        // Skip chase movement
-                        if (line.Contains("Face:") && line.Contains("FacingTarget"))
-                            break;
-
-                        // Extracting entry and lowGuid from packet
-                        if (line.Contains("MoverGUID:"))
+                        // Extracting the packet timestamp in milliseconds from the packet header for delay calculations
+                        string[] packetHeader = line.Split(new char[] { ' ' });
+                        for (int i = 0; i < packetHeader.Length; ++i)
                         {
-                            string[] words = line.Split(new char[] { ' ' });
-                            for (int i = 0; i < words.Length; ++i)
+                            if (packetHeader[i].Contains("Time:"))
                             {
-                                if (words[i].Contains("Entry:"))
-                                    creatureId = UInt32.Parse(words[i + 1]);
-                                else if (words[i].Contains("Low:"))
-                                    lowGuid = UInt64.Parse(words[i + 1]);
+                                wpInfo.TimeStamp = UInt32.Parse(TimeSpan.Parse(packetHeader[i + 2]).TotalMilliseconds.ToString());
+                                break;
                             }
                         }
 
-                        // Extracting spline duration
-                        if (line.Contains("MoveTime:"))
+                        // Header noted, reading rest of the packet now
+                        do
                         {
-                            string[] words = line.Split(new char[] { ' ' });
-                            for (int i = 0; i < words.Length; ++i)
-                                if (words[i].Contains("MoveTime:"))
-                                    wpInfo.MoveTime = UInt32.Parse(words[i + 1]);
-                        }
-
-                        // Extract Facing Angles
-                        if (line.Contains("FaceDirection:"))
-                        {
-                            string[] words = line.Split(new char[] { ' ' });
-                            for (int i = 0; i < words.Length; ++i)
-                                if (words[i].Contains("FaceDirection:"))
-                                    wpInfo.Position.Orientation = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
-                        }
-
-                        // Extracting waypoint (The space in the string is intentional. Do not remove!)
-                        if (line.Contains(" Points:"))
-                        {
-                            string[] words = line.Split(new char[] { ' ' });
-                            for (int i = 0; i < words.Length; ++i)
-                            {
-                                if (words[i].Contains("X:"))
-                                    wpInfo.Position.PositionX = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
-                                else if (words[i].Contains("Y:"))
-                                    wpInfo.Position.PositionY = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
-                                else if (words[i].Contains("Z:"))
-                                    wpInfo.Position.PositionZ = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
-                            }
-
-                            // Gathered all needed data. Time to store them.
-                            if (creatureId == 0)
+                            // Skip chase movement
+                            if (line.Contains("Face:") && line.Contains("FacingTarget"))
                                 break;
 
-                            // Delay Calculation
-                            if (result.ContainsKey(creatureId) && result[creatureId].ContainsKey(lowGuid))
+                            // Extracting entry and lowGuid from packet
+                            if (line.Contains("MoverGUID:"))
                             {
-                                if (result[creatureId][lowGuid].Count != 0)
+                                string[] words = line.Split(new char[] { ' ' });
+                                for (int i = 0; i < words.Length; ++i)
                                 {
-                                    int index = result[creatureId][lowGuid].Count - 1;
-                                    Int64 timeDiff = wpInfo.TimeStamp - result[creatureId][lowGuid][index].TimeStamp;
-                                    UInt32 oldMoveTime = result[creatureId][lowGuid][index].MoveTime;
-                                    result[creatureId][lowGuid][index].Delay = Convert.ToInt32(timeDiff - oldMoveTime);
+                                    if (words[i].Contains("Entry:"))
+                                        creatureId = UInt32.Parse(words[i + 1]);
+                                    else if (words[i].Contains("Low:"))
+                                        lowGuid = UInt64.Parse(words[i + 1]);
                                 }
                             }
 
-                            if (!result.ContainsKey(creatureId))
-                                result.Add(creatureId, new Dictionary<UInt64, List<WaypointInfo>>());
+                            // Extracting spline duration
+                            if (line.Contains("MoveTime:"))
+                            {
+                                string[] words = line.Split(new char[] { ' ' });
+                                for (int i = 0; i < words.Length; ++i)
+                                    if (words[i].Contains("MoveTime:"))
+                                        wpInfo.MoveTime = UInt32.Parse(words[i + 1]);
+                            }
 
-                            if (!result[creatureId].ContainsKey(lowGuid))
-                                result[creatureId].Add(lowGuid, new List<WaypointInfo>());
+                            // Extract Facing Angles
+                            if (line.Contains("FaceDirection:"))
+                            {
+                                string[] words = line.Split(new char[] { ' ' });
+                                for (int i = 0; i < words.Length; ++i)
+                                    if (words[i].Contains("FaceDirection:"))
+                                        wpInfo.Position.Orientation = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                            }
 
-                            result[creatureId][lowGuid].Add(wpInfo);
+                            // Extracting waypoint (The space in the string is intentional. Do not remove!)
+                            if (line.Contains(" Points:"))
+                            {
+                                string[] words = line.Split(new char[] { ' ' });
+                                for (int i = 0; i < words.Length; ++i)
+                                {
+                                    if (words[i].Contains("X:"))
+                                        wpInfo.Position.PositionX = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                                    else if (words[i].Contains("Y:"))
+                                        wpInfo.Position.PositionY = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                                    else if (words[i].Contains("Z:"))
+                                        wpInfo.Position.PositionZ = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                                }
+
+                                // Gathered all needed data. Time to store them.
+                                if (creatureId == 0)
+                                    break;
+
+                                // Delay Calculation
+                                if (result.ContainsKey(creatureId) && result[creatureId].ContainsKey(lowGuid))
+                                {
+                                    if (result[creatureId][lowGuid].Count != 0)
+                                    {
+                                        int index = result[creatureId][lowGuid].Count - 1;
+                                        Int64 timeDiff = wpInfo.TimeStamp - result[creatureId][lowGuid][index].TimeStamp;
+                                        UInt32 oldMoveTime = result[creatureId][lowGuid][index].MoveTime;
+                                        result[creatureId][lowGuid][index].Delay = Convert.ToInt32(timeDiff - oldMoveTime);
+                                    }
+                                }
+
+                                if (!result.ContainsKey(creatureId))
+                                    result.Add(creatureId, new Dictionary<UInt64, List<WaypointInfo>>());
+
+                                if (!result[creatureId].ContainsKey(lowGuid))
+                                    result[creatureId].Add(lowGuid, new List<WaypointInfo>());
+
+                                result[creatureId][lowGuid].Add(wpInfo);
+                            }
+
                         }
-
+                        while ((line = file.ReadLine()) != "");
                     }
-                    while ((line = file.ReadLine()) != "");
                 }
             }
-
-            file.Close();
 
             return result;
         }
