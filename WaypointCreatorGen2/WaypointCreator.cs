@@ -58,12 +58,11 @@ namespace WaypointCreatorGen2
         {
             Dictionary<UInt32, Dictionary<UInt64, List<WaypointInfo>>> result = new Dictionary<UInt32, Dictionary<UInt64, List<WaypointInfo>>>();
 
-            string[] lines = File.ReadAllLines(filePath);
+            System.IO.StreamReader file = new System.IO.StreamReader(filePath);
 
-            for (int lineIndex = 0; lineIndex < lines.Length; ++lineIndex)
+            string line;
+            while ((line = file.ReadLine()) != null)
             {
-                string line = lines[lineIndex];
-
                 if (line.Contains("SMSG_ON_MONSTER_MOVE") || line.Contains("SMSG_ON_MONSTER_MOVE_TRANSPORT"))
                 {
                     WaypointInfo wpInfo = new WaypointInfo();
@@ -84,16 +83,14 @@ namespace WaypointCreatorGen2
                     // Header noted, reading rest of the packet now
                     do
                     {
-                        ++lineIndex;
-
                         // Skip chase movement
-                        if (lines[lineIndex].Contains("Face:") && lines[lineIndex].Contains("FacingTarget"))
+                        if (line.Contains("Face:") && line.Contains("FacingTarget"))
                             break;
 
                         // Extracting entry and lowGuid from packet
-                        if (lines[lineIndex].Contains("MoverGUID:"))
+                        if (line.Contains("MoverGUID:"))
                         {
-                            string[] words = lines[lineIndex].Split(new char[] { ' ' });
+                            string[] words = line.Split(new char[] { ' ' });
                             for (int i = 0; i < words.Length; ++i)
                             {
                                 if (words[i].Contains("Entry:"))
@@ -104,27 +101,27 @@ namespace WaypointCreatorGen2
                         }
 
                         // Extracting spline duration
-                        if (lines[lineIndex].Contains("MoveTime:"))
+                        if (line.Contains("MoveTime:"))
                         {
-                            string[] words = lines[lineIndex].Split(new char[] { ' ' });
+                            string[] words = line.Split(new char[] { ' ' });
                             for (int i = 0; i < words.Length; ++i)
                                 if (words[i].Contains("MoveTime:"))
                                     wpInfo.MoveTime = UInt32.Parse(words[i + 1]);
                         }
 
                         // Extract Facing Angles
-                        if (lines[lineIndex].Contains("FaceDirection:"))
+                        if (line.Contains("FaceDirection:"))
                         {
-                            string[] words = lines[lineIndex].Split(new char[] { ' ' });
+                            string[] words = line.Split(new char[] { ' ' });
                             for (int i = 0; i < words.Length; ++i)
                                 if (words[i].Contains("FaceDirection:"))
                                     wpInfo.Position.Orientation = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
                         }
 
                         // Extracting waypoint (The space in the string is intentional. Do not remove!)
-                        if (lines[lineIndex].Contains(" Points:"))
+                        if (line.Contains(" Points:"))
                         {
-                            string[] words = lines[lineIndex].Split(new char[] { ' ' });
+                            string[] words = line.Split(new char[] { ' ' });
                             for (int i = 0; i < words.Length; ++i)
                             {
                                 if (words[i].Contains("X:"))
@@ -161,9 +158,11 @@ namespace WaypointCreatorGen2
                         }
 
                     }
-                    while (lines[lineIndex] != "");
+                    while ((line = file.ReadLine()) != "");
                 }
             }
+
+            file.Close();
 
             return result;
         }
