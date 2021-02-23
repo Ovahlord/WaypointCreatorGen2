@@ -98,6 +98,10 @@ namespace WaypointCreatorGen2
                                     else if (words[i].Contains("Low:"))
                                         lowGuid = UInt64.Parse(words[i + 1]);
                                 }
+
+                                // Skip invalid data.
+                                if (creatureId == 0 || lowGuid == 0)
+                                    break;
                             }
 
                             // Extracting spline duration
@@ -132,10 +136,6 @@ namespace WaypointCreatorGen2
                                         wpInfo.Position.PositionZ = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
                                 }
 
-                                // Gathered all needed data. Time to store them.
-                                if (creatureId == 0)
-                                    break;
-
                                 // Delay Calculation
                                 if (result.ContainsKey(creatureId) && result[creatureId].ContainsKey(lowGuid))
                                 {
@@ -148,6 +148,7 @@ namespace WaypointCreatorGen2
                                     }
                                 }
 
+                                // Everything gathered, time to store the data
                                 if (!result.ContainsKey(creatureId))
                                     result.Add(creatureId, new Dictionary<UInt64, List<WaypointInfo>>());
 
@@ -174,41 +175,39 @@ namespace WaypointCreatorGen2
             {
                 foreach (var waypointsByEntry in WaypointDatabyCreatureEntry)
                     foreach (var waypointsByGuid in waypointsByEntry.Value)
-                        EditorListBox.Items.Add(waypointsByGuid.Key);
+                        EditorListBox.Items.Add(waypointsByEntry.Key.ToString() + " (" + waypointsByGuid.Key.ToString() + ")");
             }
             else
             {
                 if (WaypointDatabyCreatureEntry.ContainsKey(creatureId))
                     foreach (var waypointsByGuid in WaypointDatabyCreatureEntry[creatureId])
-                        EditorListBox.Items.Add(waypointsByGuid.Key);
+                        EditorListBox.Items.Add(creatureId.ToString() + " (" + waypointsByGuid.Key.ToString() + ")");
             }
         }
 
-        private void ShowWaypointDataForGUID(UInt64 lowGUID)
+        private void ShowWaypointDataForCreature(UInt32 creatureId, UInt64 lowGUID)
         {
             // Filling the GridView
             EditorGridView.Rows.Clear();
 
-            foreach (var waypointsByEntry in WaypointDatabyCreatureEntry)
+            if (!WaypointDatabyCreatureEntry.ContainsKey(creatureId))
+                return;
+
+            if (WaypointDatabyCreatureEntry[creatureId].ContainsKey(lowGUID))
             {
-                if (waypointsByEntry.Value.ContainsKey(lowGUID))
+                int count = 0;
+                foreach (WaypointInfo wpInfo in WaypointDatabyCreatureEntry[creatureId][lowGUID])
                 {
-                    int count = 0;
-                    foreach (WaypointInfo wpInfo in waypointsByEntry.Value[lowGUID])
-                    {
-                        EditorGridView.Rows.Add(
-                            count,
-                            wpInfo.Position.PositionX.ToString(CultureInfo.InvariantCulture),
-                            wpInfo.Position.PositionY.ToString(CultureInfo.InvariantCulture),
-                            wpInfo.Position.PositionZ.ToString(CultureInfo.InvariantCulture),
-                            wpInfo.Position.Orientation.ToString(CultureInfo.InvariantCulture),
-                            wpInfo.MoveTime,
-                            wpInfo.Delay);
+                    EditorGridView.Rows.Add(
+                        count,
+                        wpInfo.Position.PositionX.ToString(CultureInfo.InvariantCulture),
+                        wpInfo.Position.PositionY.ToString(CultureInfo.InvariantCulture),
+                        wpInfo.Position.PositionZ.ToString(CultureInfo.InvariantCulture),
+                        wpInfo.Position.Orientation.ToString(CultureInfo.InvariantCulture),
+                        wpInfo.MoveTime,
+                        wpInfo.Delay);
 
-                        ++count;
-                    }
-
-                    break;
+                    ++count;
                 }
             }
 
@@ -247,8 +246,11 @@ namespace WaypointCreatorGen2
             if (EditorListBox.SelectedIndex == -1)
                 return;
 
-            UInt64 lowGuid = UInt64.Parse(EditorListBox.SelectedItem.ToString());
-            ShowWaypointDataForGUID(lowGuid);
+            string[] words = EditorListBox.SelectedItem.ToString().Replace("(", "").Replace(")", "").Split(new char[] { ' ' });
+
+            UInt32 creatureId = UInt32.Parse(words[0]);
+            UInt64 lowGuid = UInt64.Parse(words[1]);
+            ShowWaypointDataForCreature(creatureId, lowGuid);
         }
 
         private void CutStripMenuItem_Click(object sender, EventArgs e)

@@ -261,7 +261,7 @@ namespace WaypointCreatorGen2
             this.groupBox2.Size = new System.Drawing.Size(207, 500);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Found GUIDs";
+            this.groupBox2.Text = "Found Entries";
             // 
             // EditorListBox
             // 
