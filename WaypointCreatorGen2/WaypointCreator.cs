@@ -217,11 +217,9 @@ namespace WaypointCreatorGen2
                 {
                     int splineCount = 0;
                     string orientation = "NULL";
-                    if (wpInfo.Position.Orientation is float)
-                    {
-                        orientation = wpInfo.Position.Orientation.ToString();
-                    }
-                    
+                    if (wpInfo.Position.Orientation.HasValue)
+                        orientation = wpInfo.Position.Orientation.Value.ToString(CultureInfo.InvariantCulture);
+
                     EditorGridView.Rows.Add(
                         count,
                         wpInfo.Position.PositionX.ToString(CultureInfo.InvariantCulture),
@@ -467,7 +465,7 @@ namespace WaypointCreatorGen2
         public float PositionX = 0f;
         public float PositionY = 0f;
         public float PositionZ = 0f;
-        public object Orientation = null;
+        public float? Orientation;
     }
 
     public class SplinePosition
