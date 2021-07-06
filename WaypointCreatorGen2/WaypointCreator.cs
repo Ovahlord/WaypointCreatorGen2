@@ -216,13 +216,18 @@ namespace WaypointCreatorGen2
                 foreach (WaypointInfo wpInfo in WaypointDatabyCreatureEntry[creatureId][lowGUID])
                 {
                     int splineCount = 0;
-
+                    string orientation = "NULL";
+                    if (wpInfo.Position.Orientation is float)
+                    {
+                        orientation = wpInfo.Position.Orientation.ToString();
+                    }
+                    
                     EditorGridView.Rows.Add(
                         count,
                         wpInfo.Position.PositionX.ToString(CultureInfo.InvariantCulture),
                         wpInfo.Position.PositionY.ToString(CultureInfo.InvariantCulture),
                         wpInfo.Position.PositionZ.ToString(CultureInfo.InvariantCulture),
-                        wpInfo.Position.Orientation.ToString(CultureInfo.InvariantCulture),
+                        orientation,
                         wpInfo.MoveTime,
                         wpInfo.Delay);
 
@@ -462,7 +467,7 @@ namespace WaypointCreatorGen2
         public float PositionX = 0f;
         public float PositionY = 0f;
         public float PositionZ = 0f;
-        public float Orientation = 0f;
+        public object Orientation = null;
     }
 
     public class SplinePosition
