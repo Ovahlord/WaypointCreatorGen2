@@ -158,6 +158,22 @@ namespace WaypointCreatorGen2
                                 result[creatureId][lowGuid].Add(wpInfo);
                             }
 
+                            if (line.Contains(" WayPoints:"))
+                            {
+                                string[] words = line.Split(new char[] { ' ' });
+                                SplinePosition splinePosition = new SplinePosition();
+                                for (int i = 0; i < words.Length; ++i)
+                                {
+                                    if (words[i].Contains("X:"))
+                                        splinePosition.PositionX = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                                    else if (words[i].Contains("Y:"))
+                                        splinePosition.PositionY = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                                    else if (words[i].Contains("Z:"))
+                                        splinePosition.PositionZ = float.Parse(words[i + 1], CultureInfo.InvariantCulture);
+                                }
+
+                                wpInfo.SplineList.Add(splinePosition);
+                            }
                         }
                         while ((line = file.ReadLine()) != "");
                     }
@@ -189,6 +205,7 @@ namespace WaypointCreatorGen2
         {
             // Filling the GridView
             EditorGridView.Rows.Clear();
+            SplineGridView.Rows.Clear();
 
             if (!WaypointDatabyCreatureEntry.ContainsKey(creatureId))
                 return;
@@ -198,6 +215,8 @@ namespace WaypointCreatorGen2
                 int count = 0;
                 foreach (WaypointInfo wpInfo in WaypointDatabyCreatureEntry[creatureId][lowGUID])
                 {
+                    int splineCount = 0;
+
                     EditorGridView.Rows.Add(
                         count,
                         wpInfo.Position.PositionX.ToString(CultureInfo.InvariantCulture),
@@ -206,6 +225,18 @@ namespace WaypointCreatorGen2
                         wpInfo.Position.Orientation.ToString(CultureInfo.InvariantCulture),
                         wpInfo.MoveTime,
                         wpInfo.Delay);
+
+                    foreach (SplinePosition splineInfo in wpInfo.SplineList)
+                    {
+                        SplineGridView.Rows.Add(
+                            count,
+                            splineCount,
+                            splineInfo.PositionX.ToString(CultureInfo.InvariantCulture),
+                            splineInfo.PositionY.ToString(CultureInfo.InvariantCulture),
+                            splineInfo.PositionZ.ToString(CultureInfo.InvariantCulture));
+
+                        ++splineCount;
+                    }
 
                     ++count;
                 }
@@ -370,6 +401,25 @@ namespace WaypointCreatorGen2
 
             SQLOutputTextBox.AppendText("\r\n");
 
+            SQLOutputTextBox.AppendText("DELETE FROM `waypoint_data_addon` WHERE `PathID`= @PATH;\r\n");
+            SQLOutputTextBox.AppendText("INSERT INTO `waypoint_data_addon` (`PathID`, `PointID`, `SplinePointIndex`, `PositionX`, `PositionY`, `PositionZ`) VALUES\r\n");
+
+            int splineRowCount = 0;
+            DataGridViewRow splineFirstRow = null;
+            foreach (DataGridViewRow row in SplineGridView.Rows)
+            {
+                if (splineRowCount == 0)
+                    splineFirstRow = row;
+
+                ++splineRowCount;
+                if (splineRowCount < SplineGridView.Rows.Count)
+                    SQLOutputTextBox.AppendText($"(@PATH, {row.Cells[0].Value}, {row.Cells[1].Value}, {row.Cells[2].Value}, {row.Cells[3].Value}, {row.Cells[4].Value}),\r\n");
+                else
+                    SQLOutputTextBox.AppendText($"(@PATH, {row.Cells[0].Value}, {row.Cells[1].Value}, {row.Cells[2].Value}, {row.Cells[3].Value}, {row.Cells[4].Value});\r\n");
+            }
+
+            SQLOutputTextBox.AppendText("\r\n");
+
             // creature
             if (firstRow != null)
                 SQLOutputTextBox.AppendText($"UPDATE `creature` SET `position_x`= {firstRow.Cells[1].Value}, `position_y`= {firstRow.Cells[2].Value}, `position_z`= {firstRow.Cells[3].Value}, `orientation`= {firstRow.Cells[4].Value}, `spawndist`= 0, `MovementType`= 2 WHERE `guid`= @CGUID;\r\n");
@@ -404,6 +454,7 @@ namespace WaypointCreatorGen2
         public WaypointPosition Position = new WaypointPosition();
         public UInt32 MoveTime = 0;
         public Int32 Delay = 0;
+        public List<SplinePosition> SplineList = new List<SplinePosition>();
     }
 
     public class WaypointPosition
@@ -412,6 +463,13 @@ namespace WaypointCreatorGen2
         public float PositionY = 0f;
         public float PositionZ = 0f;
         public float Orientation = 0f;
+    }
+
+    public class SplinePosition
+    {
+        public float PositionX = 0f;
+        public float PositionY = 0f;
+        public float PositionZ = 0f;
     }
 
 }
